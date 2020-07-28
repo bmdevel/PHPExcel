@@ -274,21 +274,27 @@ class PHPExcel_Shared_OLE
 			// Simple conversion from UTF-16LE to ISO-8859-1
 			$name = str_replace("\x00", "", $nameUtf16);
 			$type = self::_readInt1($fh);
+			$skip = false;
 			switch ($type) {
-			case self::OLE_PPS_TYPE_ROOT:
-				$pps = new PHPExcel_Shared_OLE_PPS_Root(null, null, array());
-				$this->root = $pps;
-				break;
-			case self::OLE_PPS_TYPE_DIR:
-				$pps = new PHPExcel_Shared_OLE_PPS(null, null, null, null, null,
-								   null, null, null, null, array());
-				break;
-			case self::OLE_PPS_TYPE_FILE:
-				$pps = new PHPExcel_Shared_OLE_PPS_File($name);
-				break;
-			default:
-				continue;
+                case self::OLE_PPS_TYPE_ROOT:
+                    $pps = new PHPExcel_Shared_OLE_PPS_Root(null, null, array());
+                    $this->root = $pps;
+                    break;
+                case self::OLE_PPS_TYPE_DIR:
+                    $pps = new PHPExcel_Shared_OLE_PPS(null, null, null, null, null,
+                                       null, null, null, null, array());
+                    break;
+                case self::OLE_PPS_TYPE_FILE:
+                    $pps = new PHPExcel_Shared_OLE_PPS_File($name);
+                    break;
+                default:
+                    $skip = true;
+                    break;
 			}
+			if ($skip === true) {
+			    continue;
+            }
+
 			fseek($fh, 1, SEEK_CUR);
 			$pps->Type    = $type;
 			$pps->Name    = $name;
@@ -447,7 +453,7 @@ class PHPExcel_Shared_OLE
 	{
 		$rawname = '';
 		for ($i = 0; $i < strlen($ascii); ++$i) {
-			$rawname .= $ascii{$i} . "\x00";
+			$rawname .= $ascii[$i] . "\x00";
 		}
 		return $rawname;
 	}

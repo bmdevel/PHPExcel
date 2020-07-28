@@ -5343,8 +5343,9 @@
 	$this->magic_quotes_status = @get_magic_quotes_runtime();
 
 	// ----- Disable magic_quotes
-	if ($this->magic_quotes_status == 1) {
-	  @set_magic_quotes_runtime(0);
+	if ($this->magic_quotes_status === 1) {
+	  throw new \Exception('Unexpected status 1 of get_magic_quotes_runtime');
+	  //@set_magic_quotes_runtime(0);
 	}
 
     // ----- Return
@@ -5375,7 +5376,8 @@
 
 	// ----- Swap back magic_quotes
 	if ($this->magic_quotes_status == 1) {
-  	  @set_magic_quotes_runtime($this->magic_quotes_status);
+      throw new \Exception('Unexpected status 1 of get_magic_quotes_runtime');
+  	  //@set_magic_quotes_runtime($this->magic_quotes_status);
 	}
 
     // ----- Return

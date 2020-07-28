@@ -348,7 +348,7 @@ class PHPExcel_Calculation_LookupRef {
 	 *
 	 * @param	cellAddress		The reference from which you want to base the offset. Reference must refer to a cell or
 	 *								range of adjacent cells; otherwise, OFFSET returns the #VALUE! error value.
-	 * @param	rows			The number of rows, up or down, that you want the upper-left cell to refer to.
+	 * @param	paramRows       The number of rows, up or down, that you want the upper-left cell to refer to.
 	 *								Using 5 as the rows argument specifies that the upper-left cell in the reference is
 	 *								five rows below reference. Rows can be positive (which means below the starting reference)
 	 *								or negative (which means above the starting reference).
@@ -361,8 +361,10 @@ class PHPExcel_Calculation_LookupRef {
 	 * @param	width			The width, in number of columns, that you want the returned reference to be. Width must be a positive number.
 	 * @return	string			A reference to a cell or range of cells
 	 */
-	public static function OFFSET($cellAddress=Null,$rows=0,$columns=0,$height=null,$width=null) {
-		$rows		= PHPExcel_Calculation_Functions::flattenSingleValue($rows);
+	public static function OFFSET($cellAddress=Null,$paramRows=0,$columns=0,$height=null,$width=null) {
+        $args = func_get_args();
+
+		$rows		= PHPExcel_Calculation_Functions::flattenSingleValue($paramRows);
 		$columns	= PHPExcel_Calculation_Functions::flattenSingleValue($columns);
 		$height		= PHPExcel_Calculation_Functions::flattenSingleValue($height);
 		$width		= PHPExcel_Calculation_Functions::flattenSingleValue($width);
@@ -370,7 +372,6 @@ class PHPExcel_Calculation_LookupRef {
 			return 0;
 		}
 
-		$args = func_get_args();
 		$pCell = array_pop($args);
 		if (!is_object($pCell)) {
 			return PHPExcel_Calculation_Functions::REF();
