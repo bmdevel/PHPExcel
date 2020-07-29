@@ -873,9 +873,9 @@ class PHPExcel_Calculation_DateTime {
 	 *
 	 * @access	public
 	 * @category Date/Time Functions
-	 * @param	mixed			$startDate		Excel date serial value (float), PHP date timestamp (integer),
+	 * @param	mixed			$paramStartDate	Excel date serial value (float), PHP date timestamp (integer),
 	 *											PHP DateTime object, or a standard date string
-	 * @param	mixed			$endDate		Excel date serial value (float), PHP date timestamp (integer),
+	 * @param	mixed			$paramEndDate   Excel date serial value (float), PHP date timestamp (integer),
 	 *											PHP DateTime object, or a standard date string
 	 * @param	mixed			$holidays,...	Optional series of Excel date serial value (float), PHP date
 	 *											timestamp (integer), PHP DateTime object, or a standard date
@@ -883,12 +883,13 @@ class PHPExcel_Calculation_DateTime {
 	 *											as state and federal holidays and floating holidays.
 	 * @return	integer			Interval between the dates
 	 */
-	public static function NETWORKDAYS($startDate,$endDate) {
+	public static function NETWORKDAYS($paramStartDate, $paramEndDate) {
+	    $args = func_get_args();
 		//	Retrieve the mandatory start and end date that are referenced in the function definition
-		$startDate	= PHPExcel_Calculation_Functions::flattenSingleValue($startDate);
-		$endDate	= PHPExcel_Calculation_Functions::flattenSingleValue($endDate);
+		$startDate	= PHPExcel_Calculation_Functions::flattenSingleValue($paramStartDate);
+		$endDate	= PHPExcel_Calculation_Functions::flattenSingleValue($paramEndDate);
 		//	Flush the mandatory start and end date that are referenced in the function definition, and get the optional days
-		$dateArgs = PHPExcel_Calculation_Functions::flattenArray(func_get_args());
+		$dateArgs = PHPExcel_Calculation_Functions::flattenArray($args);
 		array_shift($dateArgs);
 		array_shift($dateArgs);
 
@@ -953,9 +954,9 @@ class PHPExcel_Calculation_DateTime {
 	 *
 	 * @access	public
 	 * @category Date/Time Functions
-	 * @param	mixed		$startDate		Excel date serial value (float), PHP date timestamp (integer),
+	 * @param	mixed		$paramStartDate Excel date serial value (float), PHP date timestamp (integer),
 	 *										PHP DateTime object, or a standard date string
-	 * @param	integer		$endDays		The number of nonweekend and nonholiday days before or after
+	 * @param	integer		$paramEndDays	The number of nonweekend and nonholiday days before or after
 	 *										startDate. A positive value for days yields a future date; a
 	 *										negative value yields a past date.
 	 * @param	mixed		$holidays,...	Optional series of Excel date serial value (float), PHP date
@@ -965,12 +966,13 @@ class PHPExcel_Calculation_DateTime {
 	 * @return	mixed	Excel date/time serial value, PHP date/time serial value or PHP date/time object,
 	 *						depending on the value of the ReturnDateType flag
 	 */
-	public static function WORKDAY($startDate,$endDays) {
+	public static function WORKDAY($paramStartDate, $paramEndDays) {
+	    $args = func_get_args();
 		//	Retrieve the mandatory start date and days that are referenced in the function definition
-		$startDate	= PHPExcel_Calculation_Functions::flattenSingleValue($startDate);
-		$endDays	= PHPExcel_Calculation_Functions::flattenSingleValue($endDays);
+		$startDate	= PHPExcel_Calculation_Functions::flattenSingleValue($paramStartDate);
+		$endDays	= PHPExcel_Calculation_Functions::flattenSingleValue($paramEndDays);
 		//	Flush the mandatory start date and days that are referenced in the function definition, and get the optional days
-		$dateArgs = PHPExcel_Calculation_Functions::flattenArray(func_get_args());
+		$dateArgs = PHPExcel_Calculation_Functions::flattenArray($args);
 		array_shift($dateArgs);
 		array_shift($dateArgs);
 
